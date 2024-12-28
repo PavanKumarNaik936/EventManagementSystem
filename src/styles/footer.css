@@ -1,0 +1,59 @@
+.footer_container{
+    display: flex;
+    justify-content: space-around;
+    line-height: 1.8rem;
+    color: rgb(195, 188, 188);
+}
+
+.quick_links{
+    display: flex;
+    line-height: 1.8rem;
+    flex-direction: column;
+    text-decoration: none;
+    color: black;
+}
+.footer_wrapper{
+    background: linear-gradient(#800000,#620000,#2A0001);
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 20px;
+}
+.send_mail{
+    border: 1px solid #7c8a972f;
+    padding: 1px 20px;
+    display: flex;
+    align-items: center;
+    border-radius: 50px;
+    background: rgb(71, 5, 5)
+}
+.send_mail input{
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+}
+.Quick-links{
+    color:rgba(255, 255, 255, 0.747);
+}
+.send_mail input::placeholder{
+    font-size: .8rem;
+}
+.send_mail span i{
+    color: rgba(255,255,255,0.555);
+    cursor: pointer;
+}
+.Logo h1 span{
+    font-size: 32px;
+    color: rgb(250, 245, 245);
+    text-decoration: none;
+}
+*{
+    text-decoration: none;
+}
+.footer_bottom{
+    text-align: center;
+    color: rgb(250, 245, 245);
+}
+.footer_bottom span{
+    padding-right:5px ;
+}

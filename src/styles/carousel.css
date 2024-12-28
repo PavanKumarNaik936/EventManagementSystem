@@ -1,0 +1,39 @@
+.carousel {
+    position: relative;
+    width: auto;
+    height: 600px; /* Ensure you set a fixed height for the carousel */
+    overflow: hidden; /* Hide non-active slides */
+  }
+  .carousel-slide img{
+  height: 100%; /* The image will fill the height of the container */
+  width: 100%;  /* The image will also stretch to fill the width */
+  object-fit: cover; /* The image will be cropped to fit the container */
+
+  }
+  .carousel-slide {
+    position: absolute; /* Overlay images on top of each other */
+    top: 0;
+    left: 100%; /* Start each slide off-screen to the right */
+    width: 100%;
+    height: 100%; /* Ensure the image covers the carousel height */
+    opacity: 0; /* Make each slide invisible by default */
+    transition: left 0.5s ease-in-out, opacity 0.5s ease-in-out; /* Smooth transition for slide movement and opacity */
+  }
+  .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 255, 0.7); /* Blue overlay with 50% opacity */
+  pointer-events: none;
+  transition: opacity 0.5s ease-in-out;
+}
+.carousel-slide.active{
+    opacity: 1;
+    left: 0;
+}
+.carousel-slide.active .overlay {
+  opacity: 0.2; /* Adjust as needed */
+}
+  

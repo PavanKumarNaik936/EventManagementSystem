@@ -1,0 +1,76 @@
+*{
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+}
+.welcome-container{
+    background-color: rgb(226, 224, 224);
+    text-align: center;
+    padding: 15px;
+}
+.welcome-container h1{
+   color: black;
+   font-size: 30px;
+   font-weight: 800;
+}
+.welcome-container p{
+    color: black;
+    font-size: 20px;
+    font-weight: 500;
+    color: rgb(99, 99, 99);
+ }
+ .container-3{
+    /* background-color: aquamarine; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+ }
+ .container-3 h3{
+    color: black;
+ }
+ .event_details_card{
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 10px;
+    width: 450px;
+    line-height: 2rem;
+    text-align: center;
+    background-color: rgb(251, 252, 252);
+    margin: 10px;
+ }
+ .container-3 button{
+    background-color: #56c5f8;
+    width: 110px;
+    padding: 2px;
+    font-size: 12px;
+    border-radius: 13px;
+ }
+ .container-4{
+    text-align: center;
+
+ }
+ .container-4 h3{
+    color: black;
+
+ }
+ .container-4 button{
+    background-color: #51c3f8;
+    border-radius: 8px;
+    width: 160px;
+    padding: 3px;
+ }
+ .logout{
+   /* position:relative; */
+   /* right: -570px; */
+   /* top: -20px; */
+ }
+ .logout button:hover{
+   cursor: pointer;
+ }
+ .logout button{
+   background:transparent;
+   color: white;
+   border: none;
+
+ }

@@ -1,0 +1,48 @@
+/* eventHstyle.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.section-content {
+    padding: 40px 20px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.vendor-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 400px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+.title{
+    font-size: 20px;
+    color: black;
+}
+
+
+.vendor-card p {
+    margin: 5px 0;
+    font-size: 1em;
+    color: #555;
+}
+
+.vendor-card p strong {
+    color: #000;
+}
+
+/* Add any additional styles as needed */

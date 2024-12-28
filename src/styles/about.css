@@ -1,0 +1,58 @@
+/* AboutUs.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.section-content {
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.hero {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #f4f4f4;
+}
+
+.hero h1 {
+    margin: 0;
+    font-size: 2.5em;
+    color: #800000;
+}
+
+.hero p {
+    font-size: 1.2em;
+    color: #555;
+}
+
+.team-member {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 400px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.team-member h3 {
+    margin-top: 0;
+    font-size: 1rem;
+    color: black;
+}
+
+.team-member p {
+    margin: 5px 0;
+    font-size: 1em;
+    color: #555;
+}
+
+.team-member p strong {
+    color: #000;
+}
