@@ -1,0 +1,16 @@
+/* Add this to your openEventManager.css file */
+
+.swipe-up {
+    transform: translateY(100%); /* Start at the bottom */
+    animation: swipeUp 0.8s forwards ease-in-out; /* 0.8s matches the JS duration */
+  }
+  
+  @keyframes swipeUp {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-100%);
+    }
+  }
+  

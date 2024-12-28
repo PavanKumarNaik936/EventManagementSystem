@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import "./index.css";
-
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 export function EventP() {
     const [isSignIn, setIsSignIn] = useState(true);
     const [formData, setFormData] = useState({
@@ -10,6 +11,9 @@ export function EventP() {
         password: '',
         confirmpassword:''
     });
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState('success');
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
@@ -21,15 +25,23 @@ export function EventP() {
             [name]: value
         });
     };
-
+    const handleCloseSnackbar = () => {
+        setSnackbarOpen(false);
+    };
     const updatePassword = async (e) => {
 
         let np=document.getElementById("np").value;
         let cp=document.getElementById("cp").value;
     
         if(np!=cp){
-            alert("password mismatched");
-            return;
+           // alert("password mismatched");
+            setSnackbarMessage('password mismatched');
+            setSnackbarSeverity('error');
+            setSnackbarOpen(true);
+            setTimeout(() => {
+                return;
+            }, 2000);
+           
         }
 
 
@@ -44,23 +56,35 @@ export function EventP() {
             });
 
             if (response.ok) {
-                alert('Password Updated successfully');
-                navigate('/');
+               // alert('Password Updated successfully');
+                setSnackbarMessage('Password Updated successfully');
+                setSnackbarSeverity('success');
+                setSnackbarOpen(true);
+                setTimeout(() => {
+                    navigate('/');
+                }, 2000);
+               
             } else {
-                alert('Email Was not Found');
+                setSnackbarMessage('Email was not found');
+                setSnackbarSeverity('error');
+                setSnackbarOpen(true);
+               // alert('Email Was not Found');
+               setTimeout(() => {
                 navigate('/');
+               }, 2000);
+               
             }
         } catch (error) {
             console.error('Error:', error);
         }
     };
 
-   
+    
 
     return (
         <div id="container" className={`container ${isSignIn ? 'sign-in' : 'sign-up'}`}>
             <div className="head">
-                <div className="logo"><img src="logo.jpeg" alt="no-img" className='logo' /></div>
+                <div className="logo"><img src="rgukt.jpg" alt="no-img" className='logo' /></div>
                 <div>
                     <h2>Rajiv Gandhi University Of Knowledge Technologies-Andhra Pradesh
                     <span className="name" > Rkvalley campus kadapa Dist,516330</span> 
@@ -131,6 +155,16 @@ export function EventP() {
                     </div>
                 </div>
             </div>
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={handleCloseSnackbar}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }} // Positioning Snackbar
+            >
+                <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </div>
     );
 }

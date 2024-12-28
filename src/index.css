@@ -85,26 +85,32 @@ body {
 
 .form-wrapper {
   width: 100%;
-  max-width: 28rem;
+  max-width: 22rem;
+  
 }
 
 .form {
+  background-color: #ffffff54;
   padding: 1rem;
-  background-color: var(--white);
+  /* background-color: var(--white); */
   border-radius: 1.5rem;
   width: 100%;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   transform: scale(0);
-  transition: .5s ease-in-out;
+  transition: .4s ease-in-out;
   transition-delay: 1s;
+  /* opacity: 0.; */
 }
 
 .input-group {
   position: relative;
   width: 100%;
   margin: 1rem 0;
+  
 }
-
+input::placeholder{
+  text-align: center;
+}
 .input-group i {
   position: absolute;
   top: 50%;
@@ -116,13 +122,25 @@ body {
 
 .input-group input {
   width: 100%;
-  padding: 1rem 3rem;
+  padding: 5px 5px;
   font-size: 1rem;
-  background-color: var(--gray);
+  /* background-color: var(--gray); */
   border-radius: .5rem;
-  border: 0.125rem solid var(--white);
+  border-bottom: 0.2rem solid black;
+  border: none;
   outline: none;
 }
+.input-group select {
+  width: 100%;
+  padding: 5px 5px;
+  font-size: 1rem;
+  /* background-color: var(--gray); */
+  border-radius: .5rem;
+  border-bottom: 0.2rem solid black;
+  border: none;
+  outline: none;
+}
+
 
 .input-group input:focus {
   border: 0.125rem solid var(--primary-color);
@@ -222,7 +240,7 @@ body {
 .container.sign-up .form.sign-up,
 .container.sign-up .social-list.sign-up,
 .container.sign-up .social-list.sign-up>div {
-  transform: scale(1);
+  transform: scale(0.9);
 }
 
 .content-row {
@@ -232,6 +250,12 @@ body {
   pointer-events: none;
   z-index: 6;
   width: 100%;
+}
+/* Hiding the sign-in and sign-up content on smaller screens */
+@media (max-width: 480px) {
+  #animate {
+      display: none; /* Hides the entire content row */
+  }
 }
 
 .text {
@@ -280,7 +304,16 @@ body {
 }
 
 /* BACKGROUND */
-
+#container {
+  background-image: url('loginBackground.jpg'); /* Replace with the actual path */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh; /* Full viewport height */
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+}
 .container::before {
   content: "";
   position: absolute;
@@ -295,6 +328,7 @@ body {
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   border-bottom-right-radius: max(50vw, 50vh);
   border-top-left-radius: max(50vw, 50vh);
+  opacity: 0.4;
 }
 
 .container.sign-in::before {
@@ -314,7 +348,7 @@ body {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 10px 16px rgba(0, 0, 0, 0.5); /* Increased box shadow */
-  background-color: #f9f9f9;
+  background-color: #fff;
 }
 
 .form-container h2 {
@@ -451,8 +485,9 @@ body {
  
 }
 .type button{
-  font-size: 15px;
+  font-size: 10px;
  width: 30%;
+ padding: 3px;
   
 }
 .type .active{
@@ -688,4 +723,131 @@ table thead {
 
 .update-button:hover {
   background-color: #0056b3;
+}
+
+
+
+
+/* Ramesh code  */
+/* General styling */
+/* Styling for the header */
+/* Responsive adjustments */
+
+
+.head .logo {
+  height: 100%;
+  width: 180px; /* Adjust width to be more responsive */
+}
+
+.head img {
+  max-height: 100%; /* Make the logo scale properly */
+  width: 100%;
+  object-fit: contain; /* Maintain logo aspect ratio */
+}
+
+.head h2 {
+  padding-top: 10px;
+  font-size: 18px; /* Smaller font for better responsiveness */
+  text-align: center;
+  justify-content: center;
+  
+  
+}
+
+.head .name {
+  display: block; /* Ensure span is block for proper alignment */
+  font-size: 16px; /* Smaller font for better responsiveness */
+}
+
+@media (max-width: 768px) {
+  .head {
+    flex-direction: column; /* Stack logo and text vertically */
+    align-items: center; /* Center items vertically */
+    height: auto; /* Let the height adjust based on content */
+    padding: 10px; /* Add more padding for small screens */
+  }
+
+  .head .logo {
+    width: 140px; /* Smaller logo for mobile */
+  }
+
+  .head h2 {
+    font-size: 16px; /* Smaller heading font size */
+  }
+
+  .head .name {
+    font-size: 14px; /* Smaller subheading font size */
+  }
+}
+
+@media (max-width: 480px) {
+  .head h2 {
+    font-size: 14px; /* Further reduce font size on very small screens */
+  }
+
+  .head .name {
+    font-size: 12px; /* Further reduce subheading font size */
+  }
+
+  .head .logo {
+    width: 120px; /* Further reduce logo size */
+  }
+}
+
+
+/* another */
+
+.head {
+  display: flex;
+  align-items: center; /* Vertically center the logo and text */
+  justify-content: center; /* Horizontally center the text */
+  position: fixed;
+  z-index: 10;
+  width: 100%;
+  height: 85px;
+  color: maroon;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  background-color: rgba(255, 255, 255, 0.585);
+  border: none;
+  padding: 0 20px;
+}
+
+.head .logo {
+  height: 70%;
+  width: 50px;
+  position: absolute; /* Keep the logo on the left */
+  left: 70px; /* Adjust the position of the logo */
+  border-radius: 50%;
+  top:10px
+}
+
+.head h2 {
+  font-size: 24px;
+  text-align: center;
+  margin: 0;
+}
+
+.head .name {
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .head {
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+  }
+
+  .head .logo {
+    position: static;
+    width: 140px;
+  }
+
+  .head h2 {
+    font-size: 16px;
+  }
+
+  .head .name {
+    font-size: 14px;
+  }
 }

@@ -17,7 +17,9 @@ const PastEvents = () => {
 
   return (
     <div>
-      <h2>Past Events</h2>
+      {/* <h2>Past Events</h2> */}
+      {events.length>0?
+      <div style={{height:'100vh',width:'100%'}}>
       <table>
         <thead>
           <tr>
@@ -47,7 +49,8 @@ const PastEvents = () => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </table></div>:<div style={{height:'90vh',width:'100%',display:'flex',alignItems:'center',justifyContent:'center'}}><h1 style={{fontSize:'35px',paddingLeft:'50px'}}>No Past Events Available.......</h1></div>}
+
     </div>
   );
 };

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import "./index.css";
-
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 export function StudentP() {
     const [isSignIn, setIsSignIn] = useState(true);
     const [formData, setFormData] = useState({
@@ -12,7 +13,10 @@ export function StudentP() {
     });
     const [error, setError] = useState('');
     const navigate = useNavigate();
-
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState('success'); // 'success' or 'error'
+  
     
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -23,16 +27,6 @@ export function StudentP() {
     };
 
     const updatePassword = async (e) => {
-
-        let np=document.getElementById("np").value;
-        let cp=document.getElementById("cp").value;
-    
-        if(np!=cp){
-            alert("password mismatched");
-            return;
-        }
-
-
         e.preventDefault();
         try {
             const response = await fetch('http://localhost:8080/student/requestupdatepassword', {
@@ -44,23 +38,37 @@ export function StudentP() {
             });
 
             if (response.ok) {
-                alert('Verification Email Sent for Updating Password');
-                navigate('/');
+               // alert('Verification Email Sent for Updating Password');
+               setSnackbarMessage('Verification Email Sent for Updating Password');
+               setSnackbarSeverity('success');
+               setSnackbarOpen(true);
+               setTimeout(() => {
+                navigate('/login');
+            }, 2000);
+               // navigate('/login');
             } else {
-                alert('Email Was not Found');
-                navigate('/');
+                setSnackbarMessage('Email Was not Found');
+                setSnackbarSeverity('error');
+                setSnackbarOpen(true);
+                setTimeout(() => {
+                 navigate('/login');
+             }, 2000);
+               // alert('Email Was not Found');
+               // navigate('/login');
             }
         } catch (error) {
             console.error('Error:', error);
         }
     };
 
-   
+    const handleCloseSnackbar = () => {
+        setSnackbarOpen(false);
+    };
 
     return (
         <div id="container" className={`container ${isSignIn ? 'sign-in' : 'sign-up'}`}>
             <div className="head">
-                <div className="logo"><img src="logo.jpeg" alt="no-img" className='logo' /></div>
+                <div className="logo"><img src="rgukt.jpg" alt="no-img" className='logo' /></div>
                 <div>
                     <h2>Rajiv Gandhi University Of Knowledge Technologies-Andhra Pradesh
                     <span className="name" > Rkvalley campus kadapa Dist,516330</span> 
@@ -103,12 +111,7 @@ export function StudentP() {
                                 <div className="input-group">
                                     <input type="email" name="email" placeholder="Email" required onChange={handleInputChange} />
                                 </div>
-                                <div className="input-group">
-                                    <input type="password" name="password" placeholder="new Password" required onChange={handleInputChange} id="np"/>
-                                </div>
-                                <div className="input-group">
-                                    <input type="password" name="password" placeholder="confirm Password" required onChange={handleInputChange} id="cp"/>
-                                </div>
+                            
                                 <button type="submit">Update password</button> 
                             </form>
                         </div>
@@ -119,7 +122,7 @@ export function StudentP() {
                 {/* SIGN IN CONTENT */}
                 <div className="col align-items-center flex-col">
                     <div className="text sign-in">
-                        <h2>Resetting password</h2>
+                        <h2 style={{marginLeft:'-100px', marginTop:'-50px'}}>Resetting password</h2>
                     </div>
                     <div className="img sign-in"></div>
                 </div>
@@ -131,6 +134,16 @@ export function StudentP() {
                     </div>
                 </div>
             </div>
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={handleCloseSnackbar}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }} // Positioning Snackbar
+            >
+                <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </div>
     );
 }

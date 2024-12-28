@@ -50,6 +50,8 @@ const Volunteer = () => {
   };
 
   return (
+    <><br/>
+      <br/>
     <div className="form-container">
       {submitted ? (
         <h3>Thank you for submitting your application!</h3>
@@ -146,6 +148,7 @@ const Volunteer = () => {
         </form>
       )}
     </div>
+    </>
   );
 };
 

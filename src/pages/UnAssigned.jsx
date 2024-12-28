@@ -1,9 +1,24 @@
 import React, { useState, useEffect } from "react";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 export const UnAssigned = ({ onAssign }) => {
   const [volunteers, setVolunteers] = useState([]);
-  const [showPopup, setShowPopup] = useState(false);
-  const [editingVolunteer, setEditingVolunteer] = useState(null); // State for editing
+  const [editingVolunteer, setEditingVolunteer] = useState(null);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     fetch("http://localhost:8080/volunteer/getvolunteer")
@@ -19,20 +34,17 @@ export const UnAssigned = ({ onAssign }) => {
 
   const handleAssign = (volunteer) => {
     fetch(`http://localhost:8080/volunteer/assign/${volunteer.id}`, {
-      method: 'PUT',
+      method: "PUT",
     })
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
-          throw new Error('Failed to assign work');
-        }else{
-          alert("modify to one");
+          throw new Error("Failed to assign work");
         }
-        setVolunteers(volunteers.filter(v => v.id !== volunteer.id)); // Remove the assigned volunteer from the list
-        onAssign(volunteer); // Callback for any additional logic
-        setShowPopup(true); // Show popup box
-        setTimeout(() => setShowPopup(false), 2000); // Hide popup after 2 seconds
+        setOpenSnackbar(true);
+        setVolunteers(volunteers.filter((v) => v.id !== volunteer.id));
+        onAssign(volunteer);
       })
-      .catch(error => console.error('Error assigning work:', error));
+      .catch((error) => console.error("Error assigning work:", error));
   };
 
   const handleEdit = (volunteer) => {
@@ -46,105 +58,179 @@ export const UnAssigned = ({ onAssign }) => {
         vol.id === editingVolunteer.id ? editingVolunteer : vol
       )
     );
-    setEditingVolunteer(null); // Close the form after updating
+    setEditingVolunteer(null);
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
 
   return (
     <div>
-      <h2>Unassigned Works</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Volunteer Name</th>
-            <th>Interested In</th>
-            <th>Volunteer Role</th>
-            <th>Preferred Shift</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {volunteers.map((volunteer) => (
-            <tr key={volunteer.id}>
-             {!volunteer.workassigned?<td>{volunteer.id}</td>:null} 
-             {!volunteer.workassigned?<td>{volunteer.fullname}</td>:null} 
-             {!volunteer.workassigned?<td>{volunteer.interestedin}</td>:null} 
-             {!volunteer.workassigned?<td>{volunteer.volunteerrole}</td>:null} 
-             {!volunteer.workassigned?<td>{volunteer.preferredshift}</td>:null} 
-             {!volunteer.workassigned? <td>
-                <button
-                  onClick={() => handleEdit(volunteer)}
-                  className="btn btn-primary"
-                >
-                  Edit
-                </button>
-              </td>:null}
-             {!volunteer.workassigned? <td>
-                <button onClick={() => handleAssign(volunteer)} className="assign-button">
-                  Assign
-                </button>
-              </td>:null}
-             
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Typography
+        variant={isMobile ? "h5" : "h4"}
+        gutterBottom
+        sx={{ mb: 2, textAlign: 'center' }} // Centered title with margin-bottom
+      >
+        Unassigned Works
+      </Typography>
+      <TableContainer
+        component={Paper}
+        sx={{
+          maxHeight: 400,
+          overflowX: "auto",
+          width: "100%",
+        }}
+      >
+        <Table stickyHeader>
+          <TableHead>
+            <TableRow>
+              {["ID", "Volunteer Name", "Interested In", "Volunteer Role", "Preferred Shift", "Actions"].map((header) => (
+                <TableCell key={header}>
+                  <Typography
+                    variant={isMobile ? "body2" : "body1"}
+                    sx={{ fontWeight: 'bold', textAlign: 'center' }} // Bold and centered header
+                  >
+                    {header}
+                  </Typography>
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {volunteers.length > 0 ? (
+              volunteers.map((volunteer) => (
+                <TableRow key={volunteer.id}>
+                  {!volunteer.workassigned && (
+                    <>
+                      <TableCell>
+                        <Typography variant={isMobile ? "body2" : "body1"} sx={{ textAlign: 'center' }}>
+                          {volunteer.id}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography variant={isMobile ? "body2" : "body1"} sx={{ textAlign: 'center' }}>
+                          {volunteer.fullname}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography variant={isMobile ? "body2" : "body1"} sx={{ textAlign: 'center' }}>
+                          {volunteer.interestedin}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography variant={isMobile ? "body2" : "body1"} sx={{ textAlign: 'center' }}>
+                          {volunteer.volunteerrole}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography variant={isMobile ? "body2" : "body1"} sx={{ textAlign: 'center' }}>
+                          {volunteer.preferredshift}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          size={isMobile ? "small" : "medium"}
+                          onClick={() => handleEdit(volunteer)}
+                        >
+                          Edit
+                        </Button>
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          variant="contained"
+                          color="success"
+                          size={isMobile ? "small" : "medium"}
+                          onClick={() => handleAssign(volunteer)}
+                        >
+                          Assign
+                        </Button>
+                      </TableCell>
+                    </>
+                  )}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={7} sx={{ textAlign: "center" }}>
+                  No Unassigned Works
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
-      {showPopup && (
-        <div className="popup-box">
-          <div className="popup-content">
-            <p>Work has been assigned!</p>
-          </div>
-        </div>
-      )}
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={5000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: "100%" }}>
+          Assigned successfully!
+        </Alert>
+      </Snackbar>
 
       {editingVolunteer && (
         <div className="edit-form">
-          <h3>Edit Volunteer</h3>
+          <Typography variant="h5" gutterBottom>
+            Edit Volunteer
+          </Typography>
           <form onSubmit={handleUpdate}>
-            <label>
-              Volunteer Name:
-              <input
-                type="text"
-                value={editingVolunteer.fullname}
-                onChange={(e) =>
-                  setEditingVolunteer({ ...editingVolunteer, fullname: e.target.value })
-                }
-              />
-            </label>
-            <label>
-              Interested In:
-              <input
-                type="text"
-                value={editingVolunteer.interestedin}
-                onChange={(e) =>
-                  setEditingVolunteer({ ...editingVolunteer, interestedin: e.target.value })
-                }
-              />
-            </label>
-            <label>
-              Volunteer Role:
-              <input
-                type="text"
-                value={editingVolunteer.volunteerrole}
-                onChange={(e) =>
-                  setEditingVolunteer({ ...editingVolunteer, volunteerrole: e.target.value })
-                }
-              />
-            </label>
-            <label>
-              Preferred Shift:
-              <input
-                type="text"
-                value={editingVolunteer.preferredshift}
-                onChange={(e) =>
-                  setEditingVolunteer({ ...editingVolunteer, preferredshift: e.target.value })
-                }
-              />
-            </label>
-            <button type="submit" className="update-button">
+            <div>
+              <label>
+                Volunteer Name:
+                <input
+                  type="text"
+                  value={editingVolunteer.fullname}
+                  onChange={(e) =>
+                    setEditingVolunteer({ ...editingVolunteer, fullname: e.target.value })
+                  }
+                />
+              </label>
+            </div>
+            <div>
+              <label>
+                Interested In:
+                <input
+                  type="text"
+                  value={editingVolunteer.interestedin}
+                  onChange={(e) =>
+                    setEditingVolunteer({ ...editingVolunteer, interestedin: e.target.value })
+                  }
+                />
+              </label>
+            </div>
+            <div>
+              <label>
+                Volunteer Role:
+                <input
+                  type="text"
+                  value={editingVolunteer.volunteerrole}
+                  onChange={(e) =>
+                    setEditingVolunteer({ ...editingVolunteer, volunteerrole: e.target.value })
+                  }
+                />
+              </label>
+            </div>
+            <div>
+              <label>
+                Preferred Shift:
+                <input
+                  type="text"
+                  value={editingVolunteer.preferredshift}
+                  onChange={(e) =>
+                    setEditingVolunteer({ ...editingVolunteer, preferredshift: e.target.value })
+                  }
+                />
+              </label>
+            </div>
+            <Button type="submit" variant="contained" color="primary">
               Update
-            </button>
+            </Button>
           </form>
         </div>
       )}

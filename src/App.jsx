@@ -21,25 +21,40 @@ import Layout from './components/LayOut.jsx';
 import { Assigned } from './pages/Assigned.jsx';
 import { UnAssigned } from './pages/UnAssigned.jsx';
 import Volunteering from './pages/Volunteering.jsx';
-
+ import OpenEventManager from './pages/OpenEventManager.jsx';
+import Gallery from './pages/Gallery.jsx';
+import VerifyEmail from './VerifyEmail.jsx';
+import ResetPassword from './ResetPassword.jsx';
+import Review from './pages/Review.jsx';
+import ReviewBarChart from './pages/ReviewBarChart.jsx';
+import ReviewBarChart2 from './pages/ReviewBarChart2.jsx';
 function App() {
     return (
         <UserProvider>
             <BrowserRouter>
                 <Routes>
+                {/* <Route path="/reviewbar" element={<ReviewBarChart />} />
+                <Route path="/reviewbars" element={<ReviewBarChart2 />} /> */}
+                     {/* Route to OpenEventManager as the first page */}
+                     <Route path='/resetpassword' element={<ResetPassword/>}/>
+                     <Route path="/" element={<OpenEventManager />} />
+                     <Route path='/verifyemail' element={<VerifyEmail/>}/>
                     {/* Login Routes */}
-                    <Route path="/" element={<LoginStudent />} />
+                    <Route path="/login" element={<LoginStudent />} />
                     <Route path="/faculty" element={<LoginFaculty />} />
                     <Route path="/event" element={<LoginEvent />} />
                     <Route path="/studentp" element={<StudentP />} />
                     <Route path="/facultyp" element={<FacultyP />} />
                     <Route path="/eventp" element={<EventP />} />
+                    <Route path="/gallery1" element={<Gallery />} />
+
                    
 
                     {/* Main Application Routes wrapped in Layout */}
                     <Route element={<Layout />}>
                         <Route path="/home" element={<Home />} />
                         <Route path="/about" element={<About />} />
+                      
                         <Route path="/events" element={<Events />}>
                             <Route path="addevents" element={<AddEvent />} />
                             <Route path="pastevents" element={<PastEvents />} />
@@ -52,6 +67,8 @@ function App() {
                         </Route>
                         <Route path="/resources" element={<Resources />} />
                         <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/gallery" element={<Gallery />} />
+                        <Route path="/r" element={<Review />} />
                     </Route>
 
                     {/* 404 Not Found Route */}

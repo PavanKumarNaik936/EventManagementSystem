@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import "./index.css";
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 export function FacultyP() {
     const [isSignIn, setIsSignIn] = useState(true);
@@ -9,10 +11,15 @@ export function FacultyP() {
         password: '',
         confirmpassword:''
     });
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState('success');
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    
+    const handleCloseSnackbar = () => {
+        setSnackbarOpen(false);
+    };
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -27,7 +34,13 @@ export function FacultyP() {
         let cp=document.getElementById("cp").value;
     
         if(np!=cp){
-            alert("password mismatched");
+            setSnackbarMessage('passwoed mis matched');
+            setSnackbarSeverity('error');
+            setSnackbarOpen(true);
+           // alert("password mismatched");
+           setTimeout(() => {
+                return;
+           }, 2000);
             return;
         }
 
@@ -43,11 +56,23 @@ export function FacultyP() {
             });
 
             if (response.ok) {
-                alert('Password Updated successfully');
-                navigate('/');
+               // alert('Password Updated successfully');
+                setSnackbarMessage('Password Updated successfully');
+                setSnackbarSeverity('success');
+                setSnackbarOpen(true);
+                setTimeout(() => {
+                    navigate('/login');
+                }, 2000);
+               
             } else {
-                alert('Email Was not Found');
-                navigate('/');
+               // alert('Email Was not Found');
+                setSnackbarMessage('Email was not found');
+                setSnackbarSeverity('error');
+                setSnackbarOpen(true);
+                setTimeout(() => {
+                    navigate('/login');
+                }, 2000);
+              
             }
         } catch (error) {
             console.error('Error:', error);
@@ -130,6 +155,16 @@ export function FacultyP() {
                     </div>
                 </div>
             </div>
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={handleCloseSnackbar}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }} // Positioning Snackbar
+            >
+                <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </div>
     );
 }

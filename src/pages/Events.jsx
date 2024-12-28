@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 const Events = () => {
   return (
     <div>
-      <h2>Events</h2>
+      {/* <h2>Events</h2> */}
       <Outlet /> {/* This will render the nested routes */}
     </div>
   );

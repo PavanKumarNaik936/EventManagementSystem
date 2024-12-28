@@ -1,8 +1,14 @@
 import React, { useState,useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import "./index.css";
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 import { UserContext } from './components/UserContext';
 export function LoginFaculty() {
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState('success'); // 'success' or 'error'
+   
     const { setRole } = useContext(UserContext); 
     const [isSignIn, setIsSignIn] = useState(true);
     const [formData, setFormData] = useState({
@@ -47,10 +53,19 @@ export function LoginFaculty() {
             });
 
             if (response.ok) {
-                alert('Faculty created successfully');
-                navigate('/'); // Redirect to home page
+                // alert('Faculty created successfully');
+                setSnackbarMessage('faculty account created successfully');
+                setSnackbarSeverity("success");
+                setSnackbarOpen(true);
+                setTimeout(() => {
+                    navigate('/faculty');
+                }, 2000);
+                // navigate('/login'); // Redirect to home page
             } else {
-                alert('Failed to create faculty');
+                setSnackbarMessage('failed to create try again');
+                setSnackbarSeverity("error");
+                setSnackbarOpen(true);
+               // alert('Failed to create faculty');
             }
         } catch (error) {
             console.error('Error:', error);
@@ -58,6 +73,7 @@ export function LoginFaculty() {
     };
 
     const handleSignIn = async (e) => {
+        console.log(e);
         e.preventDefault();
         try {
             const response = await fetch('http://localhost:8080/faculty/login', {
@@ -74,18 +90,31 @@ export function LoginFaculty() {
             if (response.ok) {
                 const data = await response.json(); // Parse as JSON
                 const { message, role } = data; // Extract message and role from JSON response
-                alert(message); // Show login status message
+                // alert(message); // Show login status message
+               
                 if (role) {
                     // Set role in a global state or context if needed;
                     // For example, using local storage (if applicable):
                 localStorage.setItem('userRole', role);
                 setRole(role); // Update the role in UserContext
-                navigate('/home'); // Navigate to the home page or dashboard
+                setSnackbarMessage(message);
+                setSnackbarSeverity("success");
+                setSnackbarOpen(true);
+                setTimeout(() => {
+                    navigate('/home');
+                }, 2000);
+               // navigate('/home'); // Navigate to the home page or dashboard
                 }
             } else if (response.status === 404) {
-                alert('Email not found. Please register first.');
+              //  alert('Email not found. Please register first.');
+              setSnackbarMessage('Email not found. Please register first.');
+              setSnackbarSeverity("error");
+              setSnackbarOpen(true);
             } else if (response.status === 401) {
-                alert('Wrong password. Please try again.');
+               // alert('Wrong password. Please try again.');
+                setSnackbarMessage('Wrong password. Please try again');
+                setSnackbarSeverity('error');
+                setSnackbarOpen(true);
             } else {
                 setError('Failed to sign in');
             }
@@ -94,11 +123,16 @@ export function LoginFaculty() {
         }
     };
 
+
+    const handleCloseSnackbar = () => {
+        setSnackbarOpen(false);
+    };
+
     return (
         <div id="container" className={`container ${isSignIn ? 'sign-in' : 'sign-up'}`}>
             <div className="head">
-                <div className="logo"><img src="logo.jpeg" alt="no-img" className='logo' /></div>
-                <div>
+                <div className="logo"><img src="rgukt.jpg" alt="no-img" className='logo' /></div>
+                <div style={{marginLeft:"70px"}}>
                     <h2>Rajiv Gandhi University Of Knowledge Technologies-Andhra Pradesh
                         <span className="name"> Rkvalley campus kadapa Dist,516330</span>
                     </h2>
@@ -111,7 +145,7 @@ export function LoginFaculty() {
                         <div className="form sign-up">
                             <form onSubmit={handleSignUp}>
                                 <div className="input-group" id="names">
-                                    <input type="text" name="firstname" placeholder="First Name" required onChange={handleInputChange} />
+                                    <input type="text" name="firstname" placeholder="First Name" required onChange={handleInputChange} />&nbsp;&nbsp;
                                     <input type="text" name="lastname" placeholder="Last Name" required onChange={handleInputChange} />
                                 </div>
                                 <div className="input-group">
@@ -120,17 +154,27 @@ export function LoginFaculty() {
                                 <div className="input-group">
                                     <input type="password" name="password" placeholder="Password" required onChange={handleInputChange} />
                                 </div>
-                                <div className="input-group">
+                                {/* <div className="input-group">
                                     <input type="text" name="role" placeholder="Role" required onChange={handleInputChange} />
-                                </div>
+                                </div> */}
+            <div className="input-group">                     
+ <select name="role" required onChange={handleInputChange} placeholder="select Role" defaultValue="">
+    <option value="" disabled>
+      Select Role
+    </option>
+   
+    <option  name="role" value="faculty">faculty</option>
+  
+  </select>
+</div>
                                 <div className="input-group">
                                     <input type="password" name="facultyPassword" placeholder="Faculty Password" required onChange={handleInputChange} />
                                     <h2 id="fpass" style={{ color: "red" }}>{error}</h2>
                                 </div>
                                 <button type="submit" id="signUp">Sign up</button>
                                 <p>
-                                    <span>Already have an account?</span>
-                                    <b onClick={toggleForm} className="pointer"><Link to="/" className='pointer'>Sign in here</Link></b>
+                                    <span style={{color:'black'}}>Already have an account?</span>
+                                    <b onClick={toggleForm} className="pointer"><Link to="/faculty" className='pointer'>Sign in here</Link></b>
                                 </p>
                             </form>
                         </div>
@@ -148,13 +192,13 @@ export function LoginFaculty() {
                                     <input type="password" name="password" placeholder="Password" required onChange={handleInputChange} />
                                 </div>
                                 <button type="submit">Sign in</button>
-                                <Link to="/facultyp"><p><b>Forgot password?</b></p></Link>
+                                <Link to="/facultyp"><p><b style={{color:'blue'}}>Forgot password?</b></p></Link>
                                 <p>
-                                    <span>Don't have an account?</span>
-                                    <b onClick={toggleForm} className="pointer">Sign up here</b>
+                                    <span style={{color:'white'}}>Don't have an account?</span>
+                                    <b onClick={toggleForm} className="pointer" style={{color:'blue'}} >Sign up here</b>
                                 </p>
                                 <div className="type">
-                                    <button ><Link to="/" className='ltype'>Student</Link></button>
+                                    <button ><Link to="/login" className='ltype'>Student</Link></button>
                                     <button className="active" type="button"> <Link to="/faculty" className='ltype'>Faculty</Link></button>
                                     <button ><Link to="/event" className='ltype'>Event Manager</Link></button>
                                 </div>
@@ -163,11 +207,11 @@ export function LoginFaculty() {
                     </div>
                 </div>
             </div>
-            <div className="row content-row">
+            <div className="row content-row" id='animate'>
                 {/* SIGN IN CONTENT */}
                 <div className="col align-items-center flex-col">
                     <div className="text sign-in">
-                        <h2>Welcome</h2>
+                        <h2 style={{color:'white',marginTop:'-20px'}}>Welcome</h2>
                     </div>
                     <div className="img sign-in"></div>
                 </div>
@@ -175,10 +219,20 @@ export function LoginFaculty() {
                 <div className="col align-items-center flex-col">
                     <div className="img sign-up"></div>
                     <div className="text sign-up">
-                        <h2>Join with us</h2>
+                        <h2 style={{color:'white'}}>Join with us</h2>
                     </div>
                 </div>
             </div>
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={handleCloseSnackbar}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }} // Positioning Snackbar
+            >
+                <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </div>
     );
 }
